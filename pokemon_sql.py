@@ -88,7 +88,7 @@ def consultar_pokeapi(clave: str) -> dict:
 
     stats = {item["stat"]["name"]: item["base_stat"] for item in data.get("stats", [])}
     types = data.get("types", [])
-    tipo_principal = types["type"]["name"] if types else "desconocido"
+    tipo_principal = types[0]["type"]["name"] if types else "desconocido"
 
     return {
         "id": int(data["id"]),
