@@ -23,8 +23,11 @@ def buscar_en_csv(clave: str):
     with open(CSV_FILE, mode="r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            if row["nombre"].lower() == clave_limpia or row["id"] == clave_limpia:
-                # Convertir los campos numéricos devueltos como str por el CSV
+            # Evitar errores si hay filas vacías o mal formadas
+            if not row or not row.get("nombre") or not row.get("id"):
+                continue
+
+            if row["nombre"].lower() == clave_limpia or str(row["id"]) == clave_limpia:
                 return {
                     "id": int(row["id"]),
                     "nombre": row["nombre"],
@@ -63,10 +66,12 @@ def consultar_pokeapi(clave: str) -> dict:
     except requests.RequestException:
         raise HTTPException(status_code=502, detail="No se pudo establecer conexión con la PokéAPI.")
 
-    # Extracción de stats anidados
+    # Extracción del tipo principal (types es una lista)
+    types_list = data.get("types", [])
+    tipo_principal = types_list[0]["type"]["name"] if types_list else "desconocido"
+
+    # Extracción de estadísticas
     stats = {item["stat"]["name"]: item["base_stat"] for item in data.get("stats", [])}
-    types = data.get("types", [])
-    tipo_principal = types["type"]["name"] if types else "desconocido"
 
     return {
         "id": int(data["id"]),
