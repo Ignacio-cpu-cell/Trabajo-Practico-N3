@@ -6,14 +6,13 @@ DB_FILE = "cache_pokemones.db"
 
 
 def obtener_conexion():
-    """Devuelve la conexión configurada para leer filas como diccionarios."""
     con = sqlite3.connect(DB_FILE)
     con.row_factory = sqlite3.Row
     return con
 
 
 def inicializar_db():
-    """Crea la tabla pokemones en SQLite con sus 10 atributos."""
+    #Crea la tabla pokemones en SQLite con sus 10 atributos
     con = obtener_conexion()
     cur = con.cursor()
     cur.execute("""
@@ -35,7 +34,7 @@ def inicializar_db():
 
 
 def buscar_en_db(clave: str):
-    """Busca un Pokémon en SQLite por id o nombre."""
+    #Busca un Pokémon en SQLite por id o nombre
     inicializar_db()
     clave_limpia = str(clave).strip().lower()
     con = obtener_conexion()
@@ -55,7 +54,7 @@ def buscar_en_db(clave: str):
 
 
 def guardar_en_db(pokemon: dict):
-    """Inserta o reemplaza un Pokémon en la base de datos."""
+    #Inserta o reemplaza un Pokémon en la base de datos
     inicializar_db()
     con = obtener_conexion()
     cur = con.cursor()
@@ -72,7 +71,7 @@ def guardar_en_db(pokemon: dict):
 
 
 def consultar_pokeapi(clave: str) -> dict:
-    """Consulta la PokéAPI oficial y extrae los 10 atributos requeridos."""
+    #Consulta la PokéAPI oficial y extrae los 10 atributos requeridos
     clave_limpia = str(clave).strip().lower()
     url = f"https://pokeapi.co/api/v2/pokemon/{clave_limpia}"
 
@@ -105,7 +104,7 @@ def consultar_pokeapi(clave: str) -> dict:
 
 
 def obtener_pokemon_sql(clave: str):
-    """Lógica principal de caché para SQLite."""
+    #Lógica principal de caché para SQLite
     pokemon_local = buscar_en_db(clave)
     if pokemon_local:
         return "SQLite", pokemon_local
