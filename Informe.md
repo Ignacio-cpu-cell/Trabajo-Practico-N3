@@ -1,3 +1,8 @@
+Asignatura: Informática — Universidad de Mendoza  
+Proyecto: Trabajo Práctico N 3 — API con caché de datos (PokéAPI)  
+Integrante: Ignacio Carreño  
+
+
 #Informe Comparativo: Caché en CSV vs SQLite
 
 Observación de tiempos (`tiempo_ms`) al consultar el mismo Pokémon
