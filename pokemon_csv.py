@@ -8,7 +8,7 @@ FIELDNAMES = ["id", "nombre", "tipo", "altura", "peso", "experiencia_base", "hp"
 
 
 def inicializar_csv():
-    """Crea el archivo CSV con sus encabezados si aún no existe."""
+    #Crea el archivo CSV con sus encabezados si aún no existe
     if not os.path.exists(CSV_FILE):
         with open(CSV_FILE, mode="w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
@@ -16,7 +16,7 @@ def inicializar_csv():
 
 
 def buscar_en_csv(clave: str):
-    """Busca un Pokémon en el CSV por nombre o id."""
+    #Busca un Pokémon en el CSV por nombre o id
     inicializar_csv()
     clave_limpia = str(clave).strip().lower()
 
@@ -44,7 +44,7 @@ def buscar_en_csv(clave: str):
 
 
 def guardar_en_csv(pokemon: dict):
-    """Agrega un registro de Pokémon al archivo CSV."""
+    #Agrega un registro de Pokémon al archivo CSV
     inicializar_csv()
     with open(CSV_FILE, mode="a", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
@@ -52,7 +52,7 @@ def guardar_en_csv(pokemon: dict):
 
 
 def consultar_pokeapi(clave: str) -> dict:
-    """Consulta la PokéAPI oficial y extrae los 10 atributos requeridos."""
+    #Consulta la PokéAPI oficial y extrae los 10 atributos requeridos
     clave_limpia = str(clave).strip().lower()
     url = f"https://pokeapi.co/api/v2/pokemon/{clave_limpia}"
 
@@ -88,7 +88,7 @@ def consultar_pokeapi(clave: str) -> dict:
 
 
 def obtener_pokemon_csv(clave: str):
-    """Lógica principal de caché para CSV."""
+    #Lógica principal de caché para CSV
     pokemon_local = buscar_en_csv(clave)
     if pokemon_local:
         return "CSV", pokemon_local
